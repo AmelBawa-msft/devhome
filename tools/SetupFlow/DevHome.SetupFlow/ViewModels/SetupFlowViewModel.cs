@@ -23,6 +23,9 @@ public partial class SetupFlowViewModel : ObservableObject
     private readonly MainPageViewModel _mainPageViewModel;
     private readonly PackageProvider _packageProvider;
 
+    [ObservableProperty]
+    private bool _showNextButtonTeachingTip;
+
     public SetupFlowOrchestrator Orchestrator { get; }
 
     public SetupFlowViewModel(
@@ -55,6 +58,8 @@ public partial class SetupFlowViewModel : ObservableObject
             Orchestrator.TaskGroups = taskGroups;
             SetFlowPagesFromCurrentTaskGroups();
         };
+
+        Orchestrator.PageChanging += (_, _) => ShowNextButtonTeachingTip = !Orchestrator.HasPreviousPage && Orchestrator.CurrentPageViewModel.IsStepPage;
     }
 
     public void SetFlowPagesFromCurrentTaskGroups()

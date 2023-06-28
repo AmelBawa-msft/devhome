@@ -158,7 +158,7 @@ public partial class SetupFlowOrchestrator : ObservableObject
     /// </summary>
     public bool IsUpcomingPage(SetupPageViewModelBase page) => FlowPages.Skip(_currentPageIndex + 1).Contains(page);
 
-    partial void OnCurrentPageViewModelChanging(SetupPageViewModelBase value) => PageChanging?.Invoke(null, EventArgs.Empty);
+    partial void OnCurrentPageViewModelChanged(SetupPageViewModelBase value) => PageChanging?.Invoke(null, EventArgs.Empty);
 
     [RelayCommand(CanExecute = nameof(CanGoToPreviousPage))]
     public async Task GoToPreviousPage()

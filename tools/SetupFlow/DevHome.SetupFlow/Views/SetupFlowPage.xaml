@@ -19,6 +19,7 @@
     mc:Ignorable="d">
     <Page.Resources>
         <converters:BoolToVisibilityConverter x:Key="NegatedBoolToVisibilityConverter" TrueValue="Collapsed" FalseValue="Visible" />
+        <converters:BoolToObjectConverter x:Key="BoolToObjectConverter" TrueValue="True" FalseValue="False" />
     </Page.Resources>
 
     <Grid MaxWidth="{ThemeResource MaxPageContentWidth}" Margin="{ThemeResource ContentPageMargin}">
@@ -103,9 +104,11 @@
                     <!-- Workaround to show a tooltip on a disabled button
                          https://github.com/microsoft/microsoft-ui-xaml/issues/2262-->
                     <setupFlowBehaviors:SetupFlowNavigationBehavior.DefaultNextTemplate>
-                        <Grid ToolTipService.ToolTip="{x:Bind ViewModel.Orchestrator.CurrentPageViewModel.NextPageButtonToolTipText, Mode=OneWay}">
-                            <TextBlock IsTabStop="False" />
+                        <Grid
+                            ToolTipService.ToolTip="{x:Bind ViewModel.Orchestrator.CurrentPageViewModel.NextPageButtonToolTipText, Mode=OneWay}"
+                            Background="Transparent">
                             <Button
+                                x:Name="Testing"
                                 Command="{x:Bind ViewModel.Orchestrator.GoToNextPageCommand, Mode=OneWay}"
                                 Style="{StaticResource AccentButtonStyle}"
                                 MinWidth="120" Margin="4,0"
@@ -116,5 +119,14 @@
                 </setupFlowBehaviors:SetupFlowNavigationBehavior>
             </i:Interaction.Behaviors>
         </controls:SetupFlowNavigation>
+            <TeachingTip
+                x:Name="Tip"
+                IsOpen="{x:Bind ViewModel.ShowNextButtonTeachingTip, Mode=TwoWay}"
+                Visibility="Collapsed"
+                Target="{x:Bind Testing, Mode=OneWay}"
+                ShouldConstrainToRootBounds="True"
+                KeyTipPlacementMode="Top"
+                Title="{x:Bind ViewModel.Orchestrator.CurrentPageViewModel.NextPageButtonToolTipText, Mode=OneWay}">
+            </TeachingTip>
     </Grid>
 </pg:ToolPage>
